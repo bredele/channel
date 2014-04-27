@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Data channel</title>
+</head>
+<body>
+	<script src="../build/build.js"></script>
+	<script>
+	function connect(slave, node) {
+
+		return function(ctx) {
+
+			ctx.on('candidate', function(candidate) {
+				slave.ice(candidate);
+			});
+
+			slave.on('candidate', function(candidate) {
+				ctx.ice(candidate);
+			});
+
+			slave.on('answer', function(offer) {
+				ctx.remote(offer);
+			});
+
+			ctx.on('offer', function(offer) {
+				slave.remote(offer);
+				slave.answer();
+			});
+
+			ctx.create();
+			slave.create();
+			ctx.offer();
+		};
+	}
+	</script>
+	<script>
+	  var peer = require('peer');
+	  var channel = require('channel');
+
+	  var master = peer();
+	  var slave = peer();
+
+	  master.use(channel('chat'));
+	  slave.use(channel('chat'));
+
+	  master.on('message', function(msg) {
+	  	console.log('master received', msg);
+	  });
+
+	  slave.on('message', function(msg) {
+	  	console.log('slave received', msg);
+	  });
+
+	  master.use(connect(slave));
+
+	</script>
+</body>
+</html>

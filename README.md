@@ -1,4 +1,60 @@
 channel
 =======
 
-Simple and clean webrtc data channel.
+**[peer](http://github.com/bredele/peer)** to send data through a peer connection.
+
+
+## Installation
+
+with [component](http://github.com/component/component):
+
+	$ component install bredele/channel
+
+
+## Usage
+
+  channel creates and initializes a data channel on a peer connection:
+
+```js
+var master = peer();
+var channel = require('channel');
+
+master.use(channel('chat'));
+```
+
+  if you use it with **[connect](http://github.com/bredele/connect)**, creating a chat application is as easy as:
+
+```js
+var foo = peer();
+var bar = peer();
+
+foo.use(channel('chat'));
+bar.use(channel('chat'));
+foo.use(connect(slave));
+
+foo.send('hello bar');
+```
+
+## License
+
+The MIT License (MIT)
+
+Copyright (c) 2014 Olivier Wietrich
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
