@@ -1,7 +1,7 @@
 channel
 =======
 
-**[peer](http://github.com/bredele/peer)** to send data through a peer connection.
+**[peer](http://github.com/bredele/peer)** plugin to send data through a peer connection.
 
 
 ## Installation
