@@ -22,7 +22,7 @@ var channel = require('channel');
 master.use(channel('chat'));
 ```
 
-  if you use it with **[connect](http://github.com/bredele/connect)**, creating a chat application is as easy as:
+  use it with **[connect](http://github.com/bredele/connect)** to create a chat application in a few lines:
 
 ```js
 var foo = peer();
