@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>remote channel</title>
+</head>
+<body>
+	<video class="skype"></video>
+	<video class="remote"></video>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/app/build.js"></script>
+	<script>
+	  var peer = require('peer');
+	  var signal = require('signal');
+	  var channel = require('channel');
+
+	  var foo = peer();
+
+	  foo.on('message', function(data) {
+	  	console.log(data);
+	  });
+
+	  foo.use(channel('skype'));
+	  foo.use(signal('room'));
+	</script>
+</body>
+</html>
