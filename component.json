@@ -2,13 +2,12 @@
   "name": "channel",
   "repo": "bredele/channel",
   "description": "Simple and clean webrtc data channel",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": [],
-  "dependencies": {
-  },
+  "dependencies": {},
   "development": {
     "bredele/peer": "*",
-    "bredele/signal" : "*"
+    "bredele/signal": "*"
   },
   "license": "MIT",
   "main": "index.js",

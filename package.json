@@ -1,6 +1,6 @@
 {
   "name": "channel",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "peer plugin to create data chanel",
   "main": "index.js",
   "directories": {
