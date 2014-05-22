@@ -13,13 +13,14 @@
 	  var peer = require('peer');
 	  var signal = require('signal');
 	  var channel = require('channel');
+	  require('debug')();
+	  
 
 	  var foo = peer();
-
+	  // foo.set("optional",[{"DtlsSrtpKeyAgreement":true}]);
 	  foo.on('message', function(data) {
-	  	console.log(data);
+	  	console.log('message:', data);
 	  });
-
 	  foo.use(channel('skype'));
 	  foo.use(signal('room'));
 	</script>

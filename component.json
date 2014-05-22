@@ -4,10 +4,13 @@
   "description": "Simple and clean webrtc data channel",
   "version": "0.0.2",
   "keywords": [],
-  "dependencies": {},
+  "dependencies": {
+    "bredele/trace": "*"
+  },
   "development": {
     "bredele/peer": "*",
-    "bredele/signal": "*"
+    "bredele/signal": "*",
+    "bredele/debug" : "*"
   },
   "license": "MIT",
   "main": "index.js",

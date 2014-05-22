@@ -1,7 +1,18 @@
 
 /**
+ * Modules dependencies.
+ * @api private
+ */
+
+var trace = require('trace')('channel');
+
+
+/**
  * Create a single data chanel from the peer connection
  * once created.
+ *
+ * Extend peer with a send handler to send data over
+ * the peer data channel.
  *
  * Examples:
  *
@@ -13,59 +24,74 @@
 
 module.exports = function(name) {
 
-	return function(peer) {
+  return function(peer) {
+    var channel;
+    var constraints = {};
 
-		var channel;
-
-		// Enable rtp coomunication
-		
-		peer.set('optional', [{
-			RtpDataChannels: true
-		}]);
-
-
-		/**
-		 * Send data through channel.
-		 * 
-		 * @param  {String } data 
-		 * @return {this}
-		 * @api public
-		 */
-		
-		peer.send = function(data) {
-			if(typeof data === 'object') {
-				data = JSON.stringify(data);
-			}
-			channel.send(data);
-		};
+    // it seems it doesn't change anything
+    // detect('cw', function() {
+    //   constraints = {
+    //     reliable: false
+    //   };
+    // });
 
 
-		// create data channel
-		
-		peer.on('create', function() {
+    /**
+     * Send data through channel.
+     * 
+     * @param  {String } data 
+     * @return {this}
+     * @api public
+     */
 
-			// options
-			channel = peer.connection.createDataChannel(name);
+    peer.send = function(data) {
+      if(typeof data === 'object') {
+        data = JSON.stringify(data);
+      }
+      channel.send(data);
+    };
 
-			channel.onmessage = function (event) {
-				peer.emit('message', event.data);
-			};
 
-			channel.onerror = function (error) {
-				peer.emit('error', error);
-			};
+    // create data channel on offer
+    
+    peer.on('before offer', function() {
+      trace('create channel');
+      channel = peer.connection.createDataChannel(name, constraints);
+      setChannel(peer, channel);
+    });
 
-			channel.onopen = function () {
-				peer.emit('channel open', name);
-			};
 
-			channel.onclose = function () {
-				peer.emit('channel close', name);
-			};
+    // create data channel on answer
+    
+    peer.on('before answer', function() {
+      // we will have to clean that up
+      peer.connection.ondatachannel = function(event) {
+        trace('receive channel');
+        channel = event.channel;
+        setChannel(peer, channel);
+      };
+    });
 
-		});
-
-	};
+  };
 };
 
 
+function setChannel(peer, channel) {
+
+  channel.onmessage = function (event) {
+    peer.emit('message', event.data);
+  };
+
+  channel.onerror = function (error) {
+    peer.emit('error', error);
+  };
+
+  channel.onopen = function () {
+    peer.emit('channel open', name);
+  };
+
+  channel.onclose = function () {
+    peer.emit('channel close', name);
+  };
+
+}
