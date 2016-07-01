@@ -6,6 +6,7 @@ module.exports = function(name, peer) {
   }
 }
 
+
 /**
  * Initialize peer data channel connection.
  *
@@ -18,13 +19,13 @@ module.exports = function(name, peer) {
 function init(name, peer) {
   var channel = peer.createDataChannel(name)
   channel.onmessage = function (event) {
-    console.log("received: " + event.data)
+    peer.emit('message', event.data)
   }
   channel.onopen = function () {
-    console.log("datachannel open");
+    peer.emit('channel open', name)
   }
   channel.onclose = function () {
-    console.log("datachannel close")
+    peer.emit('channel close', name)
   }
   return channel
 }
